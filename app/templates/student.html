@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ project_name }} · Estudiante</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body data-role="student">
+<header>
+  <div class="row" style="justify-content:space-between">
+    <div>
+      <h1>{{ project_name }} · Panel 2</h1>
+      <small>Escáner virtual del estudiante</small>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+  <section class="card" id="stateSummary"></section>
+
+  <div class="scanner-layout">
+    <aside class="scanner-sidebar card">
+      <div class="scanner-brand">SCAN TOOL</div>
+      <div class="scanner-subtitle">Funciones principales</div>
+      <button class="scanner-menu-btn active" data-scanner-section="scanner-home">Inicio</button>
+      <button class="scanner-menu-btn" data-scanner-section="scanner-live-data">Modo 01 · Datos en vivo</button>
+      <button class="scanner-menu-btn" data-scanner-section="scanner-freeze">Modo 02 · Freeze frame</button>
+      <button class="scanner-menu-btn" data-scanner-section="scanner-read-dtc">Modo 03 · Leer códigos</button>
+      <button class="scanner-menu-btn" data-scanner-section="scanner-clear-dtc">Modo 04 · Borrar códigos</button>
+      <button class="scanner-menu-btn" data-scanner-section="scanner-mode05">Modo 05 · Pruebas O2</button>
+      <button class="scanner-menu-btn" data-scanner-section="scanner-mode06">Modo 06 · Monitores</button>
+      <button class="scanner-menu-btn" data-scanner-section="scanner-mode07">Modo 07 · Pendientes</button>
+      <button class="scanner-menu-btn" data-scanner-section="scanner-mode08">Modo 08 · Actuadores</button>
+      <button class="scanner-menu-btn" data-scanner-section="scanner-mode09">Modo 09 · Info ECU</button>
+      <button class="scanner-menu-btn" data-scanner-section="scanner-graphs">Gráficas</button>
+      <button class="scanner-menu-btn" data-scanner-section="scanner-database">Base DTC</button>
+      <p class="footer-note" style="margin-top:14px">Esta vista está separada por funciones, como un escáner real. El panel 1 no se expone aquí.</p>
+    </aside>
+
+    <main class="scanner-main">
+      <section class="scanner-section active" id="scanner-home">
+        <div class="grid compact-grid" style="margin-top:0">
+          <section class="card span-4">
+            <h3>Conexión</h3>
+            <div id="studentSummary"></div>
+            <p class="footer-note">Usa el enlace compartido por el instructor para entrar al vehículo virtual de la clase.</p>
+          </section>
+          <section class="card span-4">
+            <div class="kpi-label">RPM</div>
+            <div class="kpi" data-kpi="sensors.rpm">0</div>
+            <small id="engineStatus"></small>
+          </section>
+          <section class="card span-4">
+            <div class="kpi-label">Velocidad vehículo</div>
+            <div class="kpi" data-kpi="sensors.vehicle_speed">0</div>
+            <small>km/h</small>
+          </section>
+          <section class="card span-12">
+            <h3>Acceso rápido</h3>
+            <div class="quick-actions-grid">
+              <button class="quick-action-btn" data-go-section="scanner-read-dtc">Leer DTC</button>
+              <button class="quick-action-btn" data-go-section="scanner-live-data">Ver datos en vivo</button>
+              <button class="quick-action-btn" data-go-section="scanner-graphs">Abrir gráficas</button>
+              <button class="quick-action-btn" data-go-section="scanner-freeze">Freeze frame</button>
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <section class="scanner-section" id="scanner-read-dtc">
+        <div class="grid compact-grid" style="margin-top:0">
+          <section class="card span-12">
+            <div class="row" style="justify-content:space-between">
+              <div>
+                <h3>Lectura de códigos de falla</h3>
+                <small>Los DTC no se muestran hasta ejecutar una lectura manual.</small>
+              </div>
+              <button id="readDtcsBtn" class="primary">Escanear DTC</button>
+            </div>
+          </section>
+          <section class="card span-12">
+            <div id="studentDtcHint" class="scan-placeholder">Presiona <strong>Escanear DTC</strong> para consultar los códigos de falla.</div>
+            <div class="table-wrap compact-table">
+              <table>
+                <thead><tr><th>Código</th><th>Descripción</th><th>Estado</th><th>Categoría</th><th>Freeze</th></tr></thead>
+                <tbody id="dtcTable"></tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <section class="scanner-section" id="scanner-clear-dtc">
+        <div class="grid compact-grid" style="margin-top:0">
+          <section class="card span-12">
+            <h3>Borrado de códigos</h3>
+            <p class="footer-note">Borra los DTC activos. Si la falla sigue presente, el código puede reaparecer.</p>
+            <div class="row">
+              <button id="studentClearBtn" class="warn">Borrar DTC</button>
+              <button class="ghost" data-go-section="scanner-read-dtc">Ir a lectura de códigos</button>
+            </div>
+            <div id="clearResultBox" class="action-result" style="display:none"></div>
+          </section>
+        </div>
+      </section>
+
+      <section class="scanner-section" id="scanner-live-data">
+        <div class="grid compact-grid" style="margin-top:0">
+          <section class="card span-12">
+            <div class="row" style="justify-content:space-between">
+              <div>
+                <h3>Datos en vivo</h3>
+                <small>Visualización continua de PIDs en tiempo real.</small>
+              </div>
+              <button class="ghost" data-go-section="scanner-graphs">Ir a gráficas</button>
+            </div>
+            <div class="table-wrap compact-table">
+              <table>
+                <thead><tr><th>PID</th><th>Valor</th><th>Unidad</th></tr></thead>
+                <tbody id="liveDataTable"></tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <section class="scanner-section" id="scanner-graphs">
+        <div class="grid compact-grid" style="margin-top:0">
+          <section class="card span-12">
+            <div class="row" style="justify-content:space-between">
+              <div>
+                <h3>Gráficas de PIDs</h3>
+                <small>Elige señales y alterna entre vista mezclada o independiente.</small>
+              </div>
+              <div class="row">
+                <label style="margin:0">Modo</label>
+                <select id="graphModeSelect">
+                  <option value="mixed">Mezcladas</option>
+                  <option value="split">Independientes</option>
+                </select>
+              </div>
+            </div>
+            <div id="signalButtons" class="signal-grid"></div>
+          </section>
+          <section class="card span-12">
+            <div id="graphPanelMixed" class="graph-panel active">
+              <div class="split-card" data-chart-card="mixed">
+                <div class="split-toolbar">
+                  <div class="split-title">Vista mezclada</div>
+                  <button class="ghost mini-btn" type="button" data-expand-chart="mixed" data-chart-target="mixed">Ampliar</button>
+                </div>
+                <canvas id="liveChart"></canvas>
+              </div>
+            </div>
+            <div id="graphPanelSplit" class="graph-panel">
+              <div id="splitCharts" class="split-chart-grid"></div>
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <section class="scanner-section" id="scanner-freeze">
+        <div class="grid compact-grid" style="margin-top:0">
+          <section class="card span-12">
+            <div class="row" style="justify-content:space-between">
+              <div>
+                <h3>Freeze frame</h3>
+                <small>Consulta las condiciones del motor en el momento de la falla.</small>
+              </div>
+              <button id="freezeBtn" class="ok">Leer freeze frame</button>
+            </div>
+          </section>
+          <section class="card span-12">
+            <div id="freezeFrameBox"></div>
+          </section>
+        </div>
+      </section>
+
+
+      <section class="scanner-section" id="scanner-mode05">
+        <div class="grid compact-grid" style="margin-top:0">
+          <section class="card span-12"><div class="row" style="justify-content:space-between"><div><h3>Modo 05 · Pruebas de sensores de oxígeno</h3><small>Resultados de prueba O2 en el escáner.</small></div><button id="mode05Btn" class="primary">Leer Modo 05</button></div></section>
+          <section class="card span-12"><div id="mode05Box" class="scan-placeholder">Presiona el botón para consultar las pruebas O2.</div></section>
+        </div>
+      </section>
+
+      <section class="scanner-section" id="scanner-mode06">
+        <div class="grid compact-grid" style="margin-top:0">
+          <section class="card span-12"><div class="row" style="justify-content:space-between"><div><h3>Modo 06 · Monitores a bordo</h3><small>Resultados de autotests internos de la ECU.</small></div><button id="mode06Btn" class="primary">Leer Modo 06</button></div></section>
+          <section class="card span-12"><div class="table-wrap compact-table"><table><thead><tr><th>TID</th><th>Monitor</th><th>Mín</th><th>Actual</th><th>Máx</th><th>Desgaste</th><th>Estado</th></tr></thead><tbody id="mode06Table"></tbody></table></div></section>
+        </div>
+      </section>
+
+      <section class="scanner-section" id="scanner-mode07">
+        <div class="grid compact-grid" style="margin-top:0">
+          <section class="card span-12"><div class="row" style="justify-content:space-between"><div><h3>Modo 07 · DTC pendientes</h3><small>Códigos pendientes antes de confirmarse.</small></div><button id="mode07Btn" class="primary">Leer Modo 07</button></div></section>
+          <section class="card span-12"><div class="table-wrap compact-table"><table><thead><tr><th>Código</th><th>Descripción</th><th>Estado</th></tr></thead><tbody id="mode07Table"></tbody></table></div></section>
+        </div>
+      </section>
+
+      <section class="scanner-section" id="scanner-mode08">
+        <div class="grid compact-grid" style="margin-top:0">
+          <section class="card span-12"><div class="row" style="justify-content:space-between"><div><h3>Modo 08 · Control de actuadores</h3><small>Explicación educativa. Las pruebas se comandarán solo desde el Panel 1.</small></div><button id="mode08Btn" class="primary">Leer Modo 08</button></div></section>
+          <section class="card span-12"><div id="mode08Box" class="scan-placeholder">Presiona el botón para consultar la explicación educativa del Modo 08.</div></section>
+        </div>
+      </section>
+
+      <section class="scanner-section" id="scanner-mode09">
+        <div class="grid compact-grid" style="margin-top:0">
+          <section class="card span-12"><div class="row" style="justify-content:space-between"><div><h3>Modo 09 · Información ECU</h3><small>Identificación del vehículo y de la simulación.</small></div><button id="mode09Btn" class="primary">Leer Modo 09</button></div></section>
+          <section class="card span-12"><div id="mode09Box" class="scan-placeholder">Presiona el botón para cargar la información ECU.</div></section>
+        </div>
+      </section>
+
+      <section class="scanner-section" id="scanner-database">
+        <div class="grid compact-grid" style="margin-top:0">
+          <section class="card span-12">
+            <h3>Buscador de base DTC</h3>
+            <div class="row">
+              <input id="dtcSearchInput" placeholder="Ejemplo: P0101 o rail pressure" style="min-width:280px">
+              <button id="searchDtcBtn" class="primary">Buscar</button>
+            </div>
+            <div class="table-wrap compact-table" style="margin-top:10px">
+              <table>
+                <thead><tr><th>Código</th><th>Descripción</th></tr></thead>
+                <tbody id="dtcLookupTable"></tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>
+
+<script src="/static/app.js"></script>
+</body>
+</html>

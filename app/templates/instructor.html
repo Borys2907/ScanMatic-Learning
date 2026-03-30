@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ project_name }} · Instructor</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body data-role="instructor">
+<header>
+  <div class="row" style="justify-content:space-between">
+    <div>
+      <h1>{{ project_name }} · Panel 1</h1>
+      <small>Consola maestra del instructor</small>
+    </div>
+    <div class="row">
+      <a href="/student" target="_blank" rel="noopener">Abrir panel 2</a>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+  <section class="card" id="stateSummary"></section>
+
+  <div class="tabbar" data-tab-group="instructor-main">
+    <button class="tabbtn active" data-tab-target="ins-resumen">Resumen</button>
+    <button class="tabbtn" data-tab-target="ins-controles">Controles</button>
+    <button class="tabbtn" data-tab-target="ins-dtc">DTC y Freeze</button>
+    <button class="tabbtn" data-tab-target="ins-graficas">Gráficas</button>
+  </div>
+
+  <section class="tabpanel active" id="ins-resumen">
+    <div class="grid compact-grid">
+      <section class="card span-3">
+        <div class="kpi-label">RPM</div>
+        <div class="kpi" data-kpi="sensors.rpm">0</div>
+        <small id="engineStatus"></small>
+      </section>
+      <section class="card span-3">
+        <div class="kpi-label">Estudiantes conectados</div>
+        <div class="kpi" data-kpi="students_connected">0</div>
+      </section>
+      <section class="card span-3">
+        <div class="kpi-label">DTC activos</div>
+        <div class="kpi" data-kpi="dtcs.length">0</div>
+      </section>
+      <section class="card span-3">
+        <div class="kpi-label">Versión broadcast</div>
+        <div class="kpi" data-kpi="broadcast_version">0</div>
+      </section>
+
+      <section class="card span-6">
+        <h3>Compartir acceso</h3>
+        <div class="field-grid two-cols">
+          <div class="field">
+            <label>Número WhatsApp del instructor</label>
+            <input id="whatsNumber" placeholder="Ejemplo: 51999999999">
+          </div>
+          <div class="field">
+            <label>IP actual del servidor</label>
+            <input id="serverIp" readonly>
+          </div>
+          <div class="field span-2">
+            <label>Link del panel 2</label>
+            <input id="studentLink" readonly>
+          </div>
+        </div>
+        <div class="row" style="margin-top:10px; flex-wrap:wrap">
+          <button id="saveWhatsBtn" class="ok">Guardar número</button>
+          <button id="copyLinkBtn" class="primary">Copiar link</button>
+          <a id="waShareBtn" class="button-like" target="_blank" rel="noopener">Compartir por WhatsApp</a>
+        </div>
+        <p class="footer-note" style="margin-top:12px">La app prepara el enlace de acceso al panel 2 con la IP actual del equipo.</p>
+      </section>
+
+      <section class="card span-6">
+        <h3>Datos en vivo</h3>
+        <div class="table-wrap compact-table">
+          <table>
+            <thead><tr><th>PID</th><th>Valor</th><th>Unidad</th></tr></thead>
+            <tbody id="liveDataTable"></tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+  </section>
+
+  <section class="tabpanel" id="ins-controles">
+    <div class="grid compact-grid">
+      <section class="card span-4">
+        <h3>Sesión y control general</h3>
+        <div class="field-grid two-cols">
+          <div class="field">
+            <label>Nombre de sesión</label>
+            <input id="sessionName" value="Clase 1">
+          </div>
+          <div class="field">
+            <label>Código de sesión</label>
+            <input id="sessionCode" value="SCANMATIC">
+          </div>
+          <div class="field">
+            <label>Modo ECU</label>
+            <select id="modeSelect">
+              <option value="gasoline">Gasolina</option>
+              <option value="diesel">Diésel</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Etapa del motor</label>
+            <select id="stageSelect">
+              <option value="key_on" selected>KOEO</option>
+              <option value="crank">Crank</option>
+              <option value="idle">Idle</option>
+              <option value="part_load">Carga parcial</option>
+              <option value="high_load">Alta carga</option>
+              <option value="decel">Desaceleración</option>
+            </select>
+          </div>
+          <div class="field span-2">
+            <label>Preset de escenario</label>
+            <select id="presetSelect">
+              <option value="normal" selected>Normal / referencia</option>
+              <option value="cold_start">Arranque en frío</option>
+              <option value="lean_maf">Mezcla pobre por MAF + falso aire</option>
+              <option value="rich_ect">ECT falsa en frío</option>
+              <option value="misfire">Misfire cilindro 1</option>
+              <option value="ckp_dropout">CKP intermitente</option>
+              <option value="o2_lazy">O2 lenta</option>
+              <option value="dirty_maf">MAF sucio</option>
+              <option value="slow_map">MAP con retardo</option>
+              <option value="throttle_lag">Throttle con retardo</option>
+              <option value="idle_hunt">Ralentí inestable</option>
+              <option value="o2_intermittent">O2 intermitente</option>
+              <option value="diesel_rail">Diésel · riel bajo</option>
+              <option value="turbo_low">Diésel · turbo bajo</option>
+              <option value="egr_stuck">EGR atascada</option>
+            </select>
+          </div>
+        </div>
+        <div class="row" style="margin-top:10px">
+          <button id="toggleEngineBtn" class="primary">Motor ON/OFF</button>
+          <button id="saveSessionBtn" class="ok">Guardar sesión</button>
+          <button id="clearBtn" class="warn">Borrar DTC</button>
+          <button id="resetBtn" class="bad">Reset total</button>
+        </div>
+      </section>
+
+      <section class="card span-5">
+        <h3>Sensores manipulables</h3>
+        <div class="field compact-field">
+          <label>RPM manual <span id="rpm_val">0</span></label>
+          <input data-sensor="rpm" type="range" min="0" max="4500" step="10" value="0">
+        </div>
+        <div class="field compact-field">
+          <label>MAP <span id="map_val">100</span> kPa</label>
+          <input data-sensor="map" type="range" min="15" max="190" step="1" value="100">
+        </div>
+        <div class="field compact-field">
+          <label>MAF <span id="maf_val">0</span> g/s</label>
+          <input data-sensor="maf" type="range" min="0" max="30" step="0.1" value="0">
+        </div>
+        <div class="field compact-field">
+          <label>ECT <span id="ect_val">88</span> °C</label>
+          <input data-sensor="ect" type="range" min="-10" max="120" step="1" value="88">
+        </div>
+                <div class="field compact-field">
+          <label>Rail pressure <span id="rail_pressure_val">300</span> bar</label>
+          <input data-sensor="rail_pressure" type="range" min="0" max="1800" step="10" value="300">
+        </div>
+      </section>
+
+      <section class="card span-3 pedal-card">
+        <h3>Pedal del acelerador</h3>
+        <div class="pedal-wrap">
+          <input class="vertical-slider" data-sensor="app" type="range" min="0" max="100" step="0.1" value="0">
+          <div class="pedal-readout">
+            <div class="pedal-percent"><span id="app_val">0</span><small>% APP</small></div>
+            <div class="pedal-note">Entrada principal del cálculo de carga y tiempo de inyección.</div>
+          </div>
+        </div>
+      </section>
+
+
+      <section class="card span-8">
+        <h3>Actuadores / control bidireccional (Modo 08 en Panel 1)</h3>
+        <div class="actuator-grid" id="actuatorGrid">
+          <label class="actuator-item"><span>Bomba de combustible</span><input type="checkbox" data-actuator="fuel_pump" checked></label>
+          <label class="actuator-item"><span>Inyector cilindro 1</span><input type="checkbox" data-actuator="injector_cyl1" checked></label>
+          <label class="actuator-item"><span>Inyector cilindro 2</span><input type="checkbox" data-actuator="injector_cyl2" checked></label>
+          <label class="actuator-item"><span>Inyector cilindro 3</span><input type="checkbox" data-actuator="injector_cyl3" checked></label>
+          <label class="actuator-item"><span>Inyector cilindro 4</span><input type="checkbox" data-actuator="injector_cyl4" checked></label>
+          <label class="actuator-item"><span>Bobina cilindro 1</span><input type="checkbox" data-actuator="coil_cyl1" checked></label>
+          <label class="actuator-item"><span>Bobina cilindro 2</span><input type="checkbox" data-actuator="coil_cyl2" checked></label>
+          <label class="actuator-item"><span>Bobina cilindro 3</span><input type="checkbox" data-actuator="coil_cyl3" checked></label>
+          <label class="actuator-item"><span>Bobina cilindro 4</span><input type="checkbox" data-actuator="coil_cyl4" checked></label>
+          <label class="actuator-item"><span>EGR comandada</span><input type="checkbox" data-actuator="egr_cmd"></label>
+          <label class="actuator-item actuator-wide"><span>Electroventilador</span>
+            <select data-actuator="cooling_fan_mode">
+              <option value="auto">Auto</option>
+              <option value="on">Forzado ON</option>
+              <option value="off">Forzado OFF</option>
+            </select>
+          </label>
+        </div>
+        <p class="footer-note" style="margin-top:10px">Estos actuadores se controlan solo desde el Panel 1 para que el estudiante observe su efecto en PIDs, gráficas y DTC desde el Panel 2.</p>
+      </section>
+
+
+      <section class="card span-4">
+        <h3>Fallas rápidas</h3>
+        <div id="faultList" class="fault-list"></div>
+        <p class="footer-note" style="margin-top:12px">Normal / referencia deja todos los sensores y actuadores en condiciones óptimas, sin retardos, sin MIL y sin DTC. Arranque en frío prepara KOEO con ECT baja para ver subida progresiva de temperatura, ralentí alto inicial y actuación del electroventilador.</p>
+      </section>
+    </div>
+  </section>
+
+  <section class="tabpanel" id="ins-dtc">
+    <div class="grid compact-grid">
+      <section class="card span-7">
+        <h3>DTC y freeze frame</h3>
+        <div class="table-wrap compact-table">
+          <table>
+            <thead><tr><th>Código</th><th>Descripción</th><th>Estado</th><th>Categoría</th><th>Freeze</th></tr></thead>
+            <tbody id="dtcTable"></tbody>
+          </table>
+        </div>
+      </section>
+      <section class="card span-5">
+        <h3>Freeze frame</h3>
+        <div id="freezeFrameBox"></div>
+      </section>
+    </div>
+  </section>
+
+  <section class="tabpanel" id="ins-graficas">
+    <div class="grid compact-grid">
+      <section class="card span-12">
+        <div class="row" style="justify-content:space-between">
+          <h3>Gráficas de PIDs</h3>
+          <div class="row">
+            <label style="margin:0">Modo</label>
+            <select id="graphModeSelect">
+              <option value="mixed">Mezcladas</option>
+              <option value="split">Independientes</option>
+            </select>
+          </div>
+        </div>
+        <div id="signalButtons" class="signal-grid"></div>
+      </section>
+      <section class="card span-12">
+        <div id="graphPanelMixed" class="graph-panel active">
+          <canvas id="liveChart"></canvas>
+        </div>
+        <div id="graphPanelSplit" class="graph-panel">
+          <div id="splitCharts" class="split-chart-grid"></div>
+        </div>
+      </section>
+    </div>
+  </section>
+</div>
+<script src="/static/app.js"></script>
+</body>
+</html>
