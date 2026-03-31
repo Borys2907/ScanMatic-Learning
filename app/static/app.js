@@ -35,6 +35,7 @@ const state = {
   authPendingFlags: {},
   sessionFieldsEditing: false,
   sessionFieldsDirty: false,
+  commandCenterOptionsSignature: "",
 };
 
 const signalMap = {
@@ -1026,12 +1027,22 @@ function renderCommandCenter(data){
   }
   const select = document.getElementById("targetStudentSelect");
   if(select){
+    const isInteracting = document.activeElement === select;
+    const signature = students
+      .map(s=>`${s.id}|${s.name || ""}|${s.connected ? 1 : 0}|${s.connections || 0}`)
+      .join("||");
+    const mustBuildOptions = !select.options.length || (!isInteracting && state.commandCenterOptionsSignature !== signature);
     const current = state.selectedStudentId || "";
-    select.innerHTML = students.length
-      ? students.map(s => `<option value="${s.id}">${s.name || "Sin nombre"}${s.connected ? "  conectado" : "  offline"}</option>`).join("")
-      : `<option value="">Sin estudiantes</option>`;
-    if(Array.from(select.options).some(opt => opt.value === current)) select.value = current;
-    else if(students[0]){ select.value = students[0].id; state.selectedStudentId = students[0].id; }
+    if(mustBuildOptions){
+      select.innerHTML = students.length
+        ? students.map(s => `<option value="${s.id}">${s.name || "Sin nombre"}${s.connected ? "  conectado" : "  offline"}</option>`).join("")
+        : `<option value="">Sin estudiantes</option>`;
+      state.commandCenterOptionsSignature = signature;
+    }
+    if(!isInteracting){
+      if(Array.from(select.options).some(opt => opt.value === current)) select.value = current;
+      else if(students[0]){ select.value = students[0].id; state.selectedStudentId = students[0].id; }
+    }
     select.disabled = state.targetAllStudents || students.length === 0;
   }
   const allToggle = document.getElementById("targetAllToggle");
