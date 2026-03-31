@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{{ project_name }} · Instructor</title>
-  <link rel="stylesheet" href="/static/styles.css">
+  <title>{{ project_name }}  Instructor</title>
+  <link rel="stylesheet" href="/static/styles.css?v=20260327c">
 </head>
 <body data-role="instructor">
 <header>
   <div class="row" style="justify-content:space-between">
     <div>
-      <h1>{{ project_name }} · Panel 1</h1>
+      <h1>{{ project_name }}  Panel 1</h1>
       <small>Consola maestra del instructor</small>
     </div>
     <div class="row">
@@ -26,7 +26,8 @@
     <button class="tabbtn active" data-tab-target="ins-resumen">Resumen</button>
     <button class="tabbtn" data-tab-target="ins-controles">Controles</button>
     <button class="tabbtn" data-tab-target="ins-dtc">DTC y Freeze</button>
-    <button class="tabbtn" data-tab-target="ins-graficas">Gráficas</button>
+    <button class="tabbtn" data-tab-target="ins-graficas">Graficas</button>
+    <button class="tabbtn" data-tab-target="ins-evaluacion">Evaluacion</button>
   </div>
 
   <section class="tabpanel active" id="ins-resumen">
@@ -45,7 +46,7 @@
         <div class="kpi" data-kpi="dtcs.length">0</div>
       </section>
       <section class="card span-3">
-        <div class="kpi-label">Versión broadcast</div>
+        <div class="kpi-label">Version broadcast</div>
         <div class="kpi" data-kpi="broadcast_version">0</div>
       </section>
 
@@ -53,7 +54,7 @@
         <h3>Compartir acceso</h3>
         <div class="field-grid two-cols">
           <div class="field">
-            <label>Número WhatsApp del instructor</label>
+            <label>Numero WhatsApp del instructor</label>
             <input id="whatsNumber" placeholder="Ejemplo: 51999999999">
           </div>
           <div class="field">
@@ -66,7 +67,7 @@
           </div>
         </div>
         <div class="row" style="margin-top:10px; flex-wrap:wrap">
-          <button id="saveWhatsBtn" class="ok">Guardar número</button>
+          <button id="saveWhatsBtn" class="ok">Guardar numero</button>
           <button id="copyLinkBtn" class="primary">Copiar link</button>
           <a id="waShareBtn" class="button-like" target="_blank" rel="noopener">Compartir por WhatsApp</a>
         </div>
@@ -82,27 +83,71 @@
           </table>
         </div>
       </section>
+      <section class="card span-12">
+        <div class="row" style="justify-content:space-between;align-items:center">
+          <h3>Registro de sesiones (BD + exportable Excel/CSV)</h3>
+          <button id="sessionRegistryRefreshBtn" class="ghost">Actualizar registro</button>
+        </div>
+        <div class="table-wrap compact-table" style="margin-top:10px">
+          <table>
+            <thead><tr><th>Sesion</th><th>Codigo</th><th>Fecha</th><th>Estudiantes</th><th>Exportar</th></tr></thead>
+            <tbody id="sessionRegistryTable"></tbody>
+          </table>
+        </div>
+      </section>
+      <section class="card span-12 guide-card">
+        <div class="guide-title">
+          <h3>Guia Rapida de Mezcla (Formacion)</h3>
+          <span class="guide-chip">Consulta rapida</span>
+        </div>
+        <div class="guide-grid">
+          <div class="guide-block">
+            <h4>MAF (g/s)</h4>
+            <ul class="guide-list">
+              <li><strong>Que mirar:</strong> debe subir con RPM y carga.</li>
+              <li><strong>Que significa:</strong> si aceleras y no sube, lectura anormal.</li>
+              <li><strong>Que sospechar:</strong> MAF sucio, restriccion o fuga de aire.</li>
+            </ul>
+          </div>
+          <div class="guide-block">
+            <h4>MAP (kPa)</h4>
+            <ul class="guide-list">
+              <li><strong>Que mirar:</strong> en ralenti gasolina suele estar aprox 25-40.</li>
+              <li><strong>Que significa:</strong> en carga sube cerca de 90-100 (sin turbo).</li>
+              <li><strong>Que sospechar:</strong> MAP alto en ralenti sugiere fuga o distribucion fuera de punto.</li>
+            </ul>
+          </div>
+          <div class="guide-block">
+            <h4>O2 B1S1 + STFT/LTFT</h4>
+            <ul class="guide-list">
+              <li><strong>Que mirar:</strong> O2 debe oscilar en lazo cerrado; trims cerca de 0%.</li>
+              <li><strong>Que significa:</strong> STFT/LTFT positivos = tendencia pobre; negativos = rica.</li>
+              <li><strong>Que sospechar:</strong> trims mayores a +/-20% indican falla real de mezcla.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
     </div>
   </section>
 
   <section class="tabpanel" id="ins-controles">
     <div class="grid compact-grid">
       <section class="card span-4">
-        <h3>Sesión y control general</h3>
+        <h3>Sesion y control general</h3>
         <div class="field-grid two-cols">
           <div class="field">
-            <label>Nombre de sesión</label>
+            <label>Nombre de sesion</label>
             <input id="sessionName" value="Clase 1">
           </div>
           <div class="field">
-            <label>Código de sesión</label>
+            <label>Codigo de sesion</label>
             <input id="sessionCode" value="SCANMATIC">
           </div>
           <div class="field">
             <label>Modo ECU</label>
             <select id="modeSelect">
               <option value="gasoline">Gasolina</option>
-              <option value="diesel">Diésel</option>
+              <option value="diesel">Diesel</option>
             </select>
           </div>
           <div class="field">
@@ -113,35 +158,66 @@
               <option value="idle">Idle</option>
               <option value="part_load">Carga parcial</option>
               <option value="high_load">Alta carga</option>
-              <option value="decel">Desaceleración</option>
+              <option value="decel">Desaceleracion</option>
             </select>
           </div>
           <div class="field span-2">
             <label>Preset de escenario</label>
             <select id="presetSelect">
               <option value="normal" selected>Normal / referencia</option>
-              <option value="cold_start">Arranque en frío</option>
+              <option value="cold_start">Arranque en frio</option>
               <option value="lean_maf">Mezcla pobre por MAF + falso aire</option>
-              <option value="rich_ect">ECT falsa en frío</option>
+              <option value="rich_ect">ECT falsa en frio</option>
               <option value="misfire">Misfire cilindro 1</option>
               <option value="ckp_dropout">CKP intermitente</option>
               <option value="o2_lazy">O2 lenta</option>
               <option value="dirty_maf">MAF sucio</option>
               <option value="slow_map">MAP con retardo</option>
               <option value="throttle_lag">Throttle con retardo</option>
-              <option value="idle_hunt">Ralentí inestable</option>
+              <option value="idle_hunt">Ralenti inestable</option>
               <option value="o2_intermittent">O2 intermitente</option>
-              <option value="diesel_rail">Diésel · riel bajo</option>
-              <option value="turbo_low">Diésel · turbo bajo</option>
+              <option value="diesel_rail">Diesel  riel bajo</option>
+              <option value="turbo_low">Diesel  turbo bajo</option>
               <option value="egr_stuck">EGR atascada</option>
             </select>
           </div>
         </div>
         <div class="row" style="margin-top:10px">
           <button id="toggleEngineBtn" class="primary">Motor ON/OFF</button>
-          <button id="saveSessionBtn" class="ok">Guardar sesión</button>
+          <button id="saveSessionBtn" class="ok">Guardar sesion</button>
+          <button id="exportSessionBtn" class="primary">Exportar sesion actual</button>
+          <a id="lastSessionExportLink" class="button-like" style="display:none" target="_blank" rel="noopener">Descargar ultimo export</a>
           <button id="clearBtn" class="warn">Borrar DTC</button>
           <button id="resetBtn" class="bad">Reset total</button>
+        </div>
+        <small id="sessionSaveStatus" class="footer-note"></small>
+        <hr style="border-color:#21405c; margin:12px 0">
+        <div class="field-grid two-cols">
+          <div class="field">
+            <label>Estudiante objetivo</label>
+            <select id="targetStudentSelect"></select>
+          </div>
+          <div class="field">
+            <label style="display:flex;justify-content:space-between;align-items:center">
+              <span>Aplicar comandos a todos</span>
+              <input id="targetAllToggle" type="checkbox">
+            </label>
+            <small class="footer-note">Desactivado: comando exclusivo al estudiante seleccionado.</small>
+          </div>
+          <div class="field span-2">
+            <small id="commandCenterStatus" class="footer-note">Centro de comando listo.</small>
+          </div>
+          <div class="field span-2">
+            <label>Solicitud de borrado DTC (estudiante objetivo)</label>
+            <small id="dtcClearApprovalInfo" class="footer-note">Sin solicitudes pendientes.</small>
+            <div class="row" style="margin-top:8px">
+              <button id="approveSelectedClearBtn" class="ok auth-btn">Autorizar borrar</button>
+              <button id="approveSelectedEngineControlBtn" class="primary auth-btn">Autorizar control motor</button>
+              <button id="approveSelectedEngineOffBtn" class="warn auth-btn">Autorizar apagar</button>
+              <button id="approveSelectedResetBtn" class="bad auth-btn">Autorizar restablecer</button>
+              <button id="denySelectedClearBtn" class="ghost">Denegar todo</button>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -160,12 +236,24 @@
           <input data-sensor="maf" type="range" min="0" max="30" step="0.1" value="0">
         </div>
         <div class="field compact-field">
-          <label>ECT <span id="ect_val">88</span> °C</label>
+          <label>ECT <span id="ect_val">88</span> C</label>
           <input data-sensor="ect" type="range" min="-10" max="120" step="1" value="88">
         </div>
-                <div class="field compact-field">
+        <div class="field compact-field">
           <label>Rail pressure <span id="rail_pressure_val">300</span> bar</label>
           <input data-sensor="rail_pressure" type="range" min="0" max="1800" step="10" value="300">
+        </div>
+        <hr style="border-color:#21405c; margin:12px 0">
+        <div class="field compact-field">
+          <label style="display:flex;justify-content:space-between;align-items:center">
+            <span>Autoajuste por APP</span>
+            <input id="autoAdjustToggle" type="checkbox">
+          </label>
+          <small class="footer-note">Cuando est activo, el pedal ajusta RPM, MAP, MAF y riel automticamente.</small>
+        </div>
+        <div class="field compact-field">
+          <label>Variaci3n auto <span id="autoVariation_val">0</span>%</label>
+          <input id="autoVariationRange" type="range" min="-35" max="35" step="1" value="0">
         </div>
       </section>
 
@@ -175,7 +263,7 @@
           <input class="vertical-slider" data-sensor="app" type="range" min="0" max="100" step="0.1" value="0">
           <div class="pedal-readout">
             <div class="pedal-percent"><span id="app_val">0</span><small>% APP</small></div>
-            <div class="pedal-note">Entrada principal del cálculo de carga y tiempo de inyección.</div>
+            <div class="pedal-note">Entrada principal del calculo de carga y tiempo de inyeccion.</div>
           </div>
         </div>
       </section>
@@ -202,14 +290,14 @@
             </select>
           </label>
         </div>
-        <p class="footer-note" style="margin-top:10px">Estos actuadores se controlan solo desde el Panel 1 para que el estudiante observe su efecto en PIDs, gráficas y DTC desde el Panel 2.</p>
+        <p class="footer-note" style="margin-top:10px">Estos actuadores se controlan solo desde el Panel 1 para que el estudiante observe su efecto en PIDs, graficas y DTC desde el Panel 2.</p>
       </section>
 
 
       <section class="card span-4">
-        <h3>Fallas rápidas</h3>
+        <h3>Fallas rapidas</h3>
         <div id="faultList" class="fault-list"></div>
-        <p class="footer-note" style="margin-top:12px">Normal / referencia deja todos los sensores y actuadores en condiciones óptimas, sin retardos, sin MIL y sin DTC. Arranque en frío prepara KOEO con ECT baja para ver subida progresiva de temperatura, ralentí alto inicial y actuación del electroventilador.</p>
+        <p class="footer-note" style="margin-top:12px">Normal / referencia deja todos los sensores y actuadores en condiciones optimas, sin retardos, sin MIL y sin DTC. Arranque en frio prepara KOEO con ECT baja para ver subida progresiva de temperatura, ralenti alto inicial y actuacion del electroventilador.</p>
       </section>
     </div>
   </section>
@@ -220,7 +308,7 @@
         <h3>DTC y freeze frame</h3>
         <div class="table-wrap compact-table">
           <table>
-            <thead><tr><th>Código</th><th>Descripción</th><th>Estado</th><th>Categoría</th><th>Freeze</th></tr></thead>
+            <thead><tr><th>Codigo</th><th>Descripcion</th><th>Estado</th><th>Categoria</th><th>Freeze</th></tr></thead>
             <tbody id="dtcTable"></tbody>
           </table>
         </div>
@@ -236,13 +324,15 @@
     <div class="grid compact-grid">
       <section class="card span-12">
         <div class="row" style="justify-content:space-between">
-          <h3>Gráficas de PIDs</h3>
+          <h3>Graficas de PIDs</h3>
           <div class="row">
             <label style="margin:0">Modo</label>
             <select id="graphModeSelect">
               <option value="mixed">Mezcladas</option>
               <option value="split">Independientes</option>
             </select>
+            <button class="ghost mini-btn" type="button" data-graph-pause-btn>Pausar grafica</button>
+            <button class="ghost mini-btn" type="button" data-graph-export-btn>Exportar imagen</button>
           </div>
         </div>
         <div id="signalButtons" class="signal-grid"></div>
@@ -257,7 +347,84 @@
       </section>
     </div>
   </section>
+
+  <section class="tabpanel" id="ins-evaluacion">
+    <div class="grid compact-grid">
+      <section class="card span-6">
+        <h3>Publicar evaluacion (20 puntos)</h3>
+        <div class="field">
+          <label>Titulo</label>
+          <input id="evaluationTitleInput" value="Evaluacion diagnostica">
+        </div>
+        <div class="row" style="margin:8px 0 10px 0">
+          <button id="evaluationSelectAllBtn" class="ok">Seleccionar todo</button>
+          <button id="evaluationDeselectAllBtn" class="ghost">Deseleccionar todo</button>
+        </div>
+        <small id="evaluationSelectionMeta" class="footer-note">Seleccionadas: 0. Cada pregunta vale 0.00/20.</small>
+        <div id="evaluationQuestionBank" class="field" style="max-height:320px;overflow:auto;border:1px solid #21405c;border-radius:10px;padding:10px"></div>
+        <div class="row" style="margin-top:10px">
+          <button id="sendEvaluationBtn" class="primary">Enviar evaluacion</button>
+        </div>
+        <small id="evaluationPublishStatus" class="footer-note"></small>
+      </section>
+      <section class="card span-6">
+        <div class="row" style="justify-content:space-between;align-items:center">
+          <h3>Analitica de evaluacion</h3>
+          <select id="evaluationChartType">
+            <option value="bar">Barras</option>
+            <option value="pie">Pastel</option>
+            <option value="line">Lineas</option>
+          </select>
+        </div>
+        <canvas id="evaluationAnalyticsChart" style="width:100%;height:300px"></canvas>
+        <div id="evaluationAnalyticsSummary" class="footer-note" style="margin-top:8px"></div>
+        <div class="row" style="margin-top:10px">
+          <button id="evaluationResultsByStudentBtn" class="ghost">Ver resumen por estudiante</button>
+          <select id="evaluationResultsStudentSelect" style="display:none;min-width:260px"></select>
+        </div>
+        <div id="evaluationReviewByStudent" style="margin-top:10px;max-height:300px;overflow:auto"></div>
+        <hr style="border-color:#21405c; margin:12px 0">
+        <h3>Asistente DTC para evaluacion</h3>
+        <small class="footer-note">Consulta rapida para orientar al estudiante durante la evaluacion.</small>
+        <div class="row" style="gap:8px;flex-wrap:wrap;margin-top:10px">
+          <select id="evalDtcChar0" style="font-size:24px;min-width:68px;height:52px;text-align:center"><option>P</option><option>B</option><option>C</option><option>U</option></select>
+          <select id="evalDtcChar1" style="font-size:24px;min-width:68px;height:52px;text-align:center"><option>0</option><option>1</option><option>2</option><option>3</option></select>
+          <select id="evalDtcChar2" style="font-size:24px;min-width:68px;height:52px;text-align:center"><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option></select>
+          <select id="evalDtcChar3" style="font-size:24px;min-width:68px;height:52px;text-align:center"><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option></select>
+          <select id="evalDtcChar4" style="font-size:24px;min-width:68px;height:52px;text-align:center"><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option></select>
+          <button id="evalDtcBuildLookupBtn" class="ok">Consultar</button>
+        </div>
+        <div class="row" style="margin-top:6px"><strong id="evalDtcComposedValue">P0000</strong></div>
+        <div id="evalDtcDetailBox" class="freeze-card" style="margin-top:8px;display:none"></div>
+      </section>
+      <section class="card span-12 guide-card">
+        <div class="guide-title">
+          <h3>Guia de Evaluacion (Simple)</h3>
+          <span class="guide-chip">Area evaluativa</span>
+        </div>
+        <div class="guide-grid">
+          <div class="guide-block">
+            <h4>Paso 1: contexto</h4>
+            <ul class="guide-list">
+              <li>Primero validar etapa: KOEO, idle o carga.</li>
+              <li>El mismo PID cambia segun condicion del motor.</li>
+              <li>No interpretar valores fuera de contexto.</li>
+            </ul>
+          </div>
+          <div class="guide-block">
+            <h4>Paso 2: evidencia tecnica</h4>
+            <ul class="guide-list">
+              <li>Relacionar grafica + PIDs + DTC/freeze frame.</li>
+              <li>Si MAF/MAP/trims no coinciden, hay falla de base.</li>
+              <li>Elegir la respuesta con mayor coherencia entre senales.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+    </div>
+  </section>
 </div>
-<script src="/static/app.js"></script>
+<script src="/static/app.js?v=20260327a"></script>
 </body>
 </html>
+

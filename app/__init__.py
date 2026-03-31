@@ -1,0 +1,2 @@
+"""ScanMatic app package."""
+

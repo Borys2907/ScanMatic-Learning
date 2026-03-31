@@ -36,27 +36,7 @@ if exist ".venv\Scripts\python.exe" (
     )
 )
 
-echo [2/4] Actualizando pip...
-call "%PYEXE%" -m pip install --upgrade pip setuptools wheel
-if errorlevel 1 (
-    echo ERROR: No se pudo actualizar pip.
-    pause
-    exit /b 1
-)
-
-echo [3/4] Instalando dependencias...
-call "%PYEXE%" -m pip install -r requirements.txt
-if errorlevel 1 (
-    echo.
-    echo ERROR: Fallo la instalacion de dependencias.
-    echo.
-    echo Esta version evita paquetes opcionales como watchfiles y httptools,
-    echo que suelen fallar en Windows cuando no hay compiladores nativos.
-    echo.
-    echo Recomendado: Python 3.10, 3.11 o 3.12.
-    pause
-    exit /b 1
-)
+echo [2/4] Inicio directo (sin verificacion de dependencias).
 
 set "LOCAL_IP="
 

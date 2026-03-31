@@ -1,0 +1,7 @@
+.venv/
+venv/
+__pycache__/
+*.pyc
+data/session_exports/
+data/session_registry.db
+para subir.txt

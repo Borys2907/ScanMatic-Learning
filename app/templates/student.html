@@ -3,15 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{{ project_name }} · Estudiante</title>
-  <link rel="stylesheet" href="/static/styles.css">
+  <title>{{ project_name }}  Estudiante</title>
+  <link rel="stylesheet" href="/static/styles.css?v=20260327c">
 </head>
 <body data-role="student">
 <header>
   <div class="row" style="justify-content:space-between">
     <div>
-      <h1>{{ project_name }} · Panel 2</h1>
-      <small>Escáner virtual del estudiante</small>
+      <h1>{{ project_name }}  Panel 2</h1>
+      <small>Escaner virtual del estudiante</small>
     </div>
   </div>
 </header>
@@ -24,27 +24,36 @@
       <div class="scanner-brand">SCAN TOOL</div>
       <div class="scanner-subtitle">Funciones principales</div>
       <button class="scanner-menu-btn active" data-scanner-section="scanner-home">Inicio</button>
-      <button class="scanner-menu-btn" data-scanner-section="scanner-live-data">Modo 01 · Datos en vivo</button>
-      <button class="scanner-menu-btn" data-scanner-section="scanner-freeze">Modo 02 · Freeze frame</button>
-      <button class="scanner-menu-btn" data-scanner-section="scanner-read-dtc">Modo 03 · Leer códigos</button>
-      <button class="scanner-menu-btn" data-scanner-section="scanner-clear-dtc">Modo 04 · Borrar códigos</button>
-      <button class="scanner-menu-btn" data-scanner-section="scanner-mode05">Modo 05 · Pruebas O2</button>
-      <button class="scanner-menu-btn" data-scanner-section="scanner-mode06">Modo 06 · Monitores</button>
-      <button class="scanner-menu-btn" data-scanner-section="scanner-mode07">Modo 07 · Pendientes</button>
-      <button class="scanner-menu-btn" data-scanner-section="scanner-mode08">Modo 08 · Actuadores</button>
-      <button class="scanner-menu-btn" data-scanner-section="scanner-mode09">Modo 09 · Info ECU</button>
-      <button class="scanner-menu-btn" data-scanner-section="scanner-graphs">Gráficas</button>
+      <button class="scanner-menu-btn" data-scanner-section="scanner-live-data">Modo 01  Datos en vivo</button>
+      <button class="scanner-menu-btn" data-scanner-section="scanner-freeze">Modo 02  Freeze frame</button>
+      <button class="scanner-menu-btn" data-scanner-section="scanner-read-dtc">Modo 03  Leer codigos</button>
+      <button class="scanner-menu-btn" data-scanner-section="scanner-clear-dtc">Modo 04  Borrar codigos</button>
+      <button class="scanner-menu-btn" data-scanner-section="scanner-mode05">Modo 05  Pruebas O2</button>
+      <button class="scanner-menu-btn" data-scanner-section="scanner-mode06">Modo 06  Monitores</button>
+      <button class="scanner-menu-btn" data-scanner-section="scanner-mode07">Modo 07  Pendientes</button>
+      <button class="scanner-menu-btn" data-scanner-section="scanner-mode08">Modo 08  Actuadores</button>
+      <button class="scanner-menu-btn" data-scanner-section="scanner-mode09">Modo 09  Info ECU</button>
+      <button class="scanner-menu-btn" data-scanner-section="scanner-graphs">Graficas</button>
+      <button class="scanner-menu-btn" data-scanner-section="scanner-evaluation">Evaluacion</button>
       <button class="scanner-menu-btn" data-scanner-section="scanner-database">Base DTC</button>
-      <p class="footer-note" style="margin-top:14px">Esta vista está separada por funciones, como un escáner real. El panel 1 no se expone aquí.</p>
+      <p class="footer-note" style="margin-top:14px">Esta vista esta separada por funciones, como un escaner real. El panel 1 no se expone aqui.</p>
     </aside>
 
     <main class="scanner-main">
       <section class="scanner-section active" id="scanner-home">
         <div class="grid compact-grid" style="margin-top:0">
           <section class="card span-4">
-            <h3>Conexión</h3>
+            <h3>Conexion</h3>
             <div id="studentSummary"></div>
-            <p class="footer-note">Usa el enlace compartido por el instructor para entrar al vehículo virtual de la clase.</p>
+            <div class="field" style="margin-top:10px">
+              <label>Tu nombre de estudiante</label>
+              <input id="studentNameInput" placeholder="Ejemplo: Carlos Perez">
+            </div>
+            <div class="row" style="margin-top:8px">
+              <button id="saveStudentNameBtn" class="ok">Guardar nombre</button>
+            </div>
+            <small id="studentNameStatus" class="footer-note"></small>
+            <p class="footer-note">Usa el enlace compartido por el instructor para entrar al vehiculo virtual de la clase.</p>
           </section>
           <section class="card span-4">
             <div class="kpi-label">RPM</div>
@@ -52,17 +61,49 @@
             <small id="engineStatus"></small>
           </section>
           <section class="card span-4">
-            <div class="kpi-label">Velocidad vehículo</div>
+            <div class="kpi-label">Velocidad vehiculo</div>
             <div class="kpi" data-kpi="sensors.vehicle_speed">0</div>
             <small>km/h</small>
           </section>
           <section class="card span-12">
-            <h3>Acceso rápido</h3>
+            <h3>Acceso rapido</h3>
             <div class="quick-actions-grid">
               <button class="quick-action-btn" data-go-section="scanner-read-dtc">Leer DTC</button>
               <button class="quick-action-btn" data-go-section="scanner-live-data">Ver datos en vivo</button>
-              <button class="quick-action-btn" data-go-section="scanner-graphs">Abrir gráficas</button>
+              <button class="quick-action-btn" data-go-section="scanner-graphs">Abrir graficas</button>
               <button class="quick-action-btn" data-go-section="scanner-freeze">Freeze frame</button>
+            </div>
+          </section>
+          <section class="card span-12 guide-card">
+            <div class="guide-title">
+              <h3>Guia Rapida para Tecnicos en Formacion</h3>
+              <span class="guide-chip">Siempre visible</span>
+            </div>
+            <div class="guide-grid">
+              <div class="guide-block">
+                <h4>MAF (g/s)</h4>
+                <ul class="guide-list">
+                  <li><strong>Que mirar:</strong> sube cuando suben RPM y carga.</li>
+                  <li><strong>Que significa:</strong> si no sube al acelerar, hay incoherencia.</li>
+                  <li><strong>Que sospechar:</strong> MAF sucio, filtro/restriccion o fuga.</li>
+                </ul>
+              </div>
+              <div class="guide-block">
+                <h4>MAP (kPa)</h4>
+                <ul class="guide-list">
+                  <li><strong>Que mirar:</strong> en ralenti gasolina aprox 25-40.</li>
+                  <li><strong>Que significa:</strong> en carga suele acercarse a 90-100.</li>
+                  <li><strong>Que sospechar:</strong> MAP alto en ralenti puede ser fuga o sincronia alterada.</li>
+                </ul>
+              </div>
+              <div class="guide-block">
+                <h4>O2 B1S1 + trims</h4>
+                <ul class="guide-list">
+                  <li><strong>Que mirar:</strong> O2 oscila en lazo cerrado; STFT/LTFT cerca de 0.</li>
+                  <li><strong>Que significa:</strong> trims positivos = pobre; negativos = rica.</li>
+                  <li><strong>Que sospechar:</strong> trims mayores a +/-20% indican problema de mezcla.</li>
+                </ul>
+              </div>
             </div>
           </section>
         </div>
@@ -73,17 +114,17 @@
           <section class="card span-12">
             <div class="row" style="justify-content:space-between">
               <div>
-                <h3>Lectura de códigos de falla</h3>
+                <h3>Lectura de codigos de falla</h3>
                 <small>Los DTC no se muestran hasta ejecutar una lectura manual.</small>
               </div>
               <button id="readDtcsBtn" class="primary">Escanear DTC</button>
             </div>
           </section>
           <section class="card span-12">
-            <div id="studentDtcHint" class="scan-placeholder">Presiona <strong>Escanear DTC</strong> para consultar los códigos de falla.</div>
+            <div id="studentDtcHint" class="scan-placeholder">Presiona <strong>Escanear DTC</strong> para consultar los codigos de falla.</div>
             <div class="table-wrap compact-table">
               <table>
-                <thead><tr><th>Código</th><th>Descripción</th><th>Estado</th><th>Categoría</th><th>Freeze</th></tr></thead>
+                <thead><tr><th>Codigo</th><th>Descripcion</th><th>Estado</th><th>Categoria</th><th>Freeze</th></tr></thead>
                 <tbody id="dtcTable"></tbody>
               </table>
             </div>
@@ -94,13 +135,33 @@
       <section class="scanner-section" id="scanner-clear-dtc">
         <div class="grid compact-grid" style="margin-top:0">
           <section class="card span-12">
-            <h3>Borrado de códigos</h3>
-            <p class="footer-note">Borra los DTC activos. Si la falla sigue presente, el código puede reaparecer.</p>
+            <h3>Borrado de codigos</h3>
+            <p class="footer-note">Borra los DTC activos. Si la falla sigue presente, el codigo puede reaparecer.</p>
             <div class="row">
               <button id="studentClearBtn" class="warn">Borrar DTC</button>
-              <button class="ghost" data-go-section="scanner-read-dtc">Ir a lectura de códigos</button>
+              <button id="studentRequestEngineControlBtn" class="primary">Solicitar control de motor</button>
+              <button id="studentRequestEngineOffBtn" class="warn">Solicitar apagar motor</button>
+              <button id="studentRequestResetBtn" class="bad">Solicitar restablecer sesion</button>
+              <button class="ghost" data-go-section="scanner-read-dtc">Ir a lectura de codigos</button>
             </div>
             <div id="clearResultBox" class="action-result" style="display:none"></div>
+          </section>
+          <section class="card span-12">
+            <h3>Control de motor del estudiante (con autorizacion)</h3>
+            <p class="footer-note">Disponible solo despues de borrar DTC y cuando el instructor autorice desde Panel 1.</p>
+            <div id="studentEngineControlStatus" class="scan-placeholder">Estado: sin autorizacion.</div>
+            <div class="row" style="margin-top:10px">
+              <button id="studentToggleEngineBtn" class="ok">Motor ON/OFF</button>
+              <select id="studentStageSelect">
+                <option value="key_on">KOEO</option>
+                <option value="crank">Crank</option>
+                <option value="idle">Idle</option>
+                <option value="part_load">Carga parcial</option>
+                <option value="high_load">Alta carga</option>
+                <option value="decel">Desaceleracion</option>
+              </select>
+              <button id="studentApplyStageBtn" class="primary">Aplicar etapa</button>
+            </div>
           </section>
         </div>
       </section>
@@ -108,12 +169,21 @@
       <section class="scanner-section" id="scanner-live-data">
         <div class="grid compact-grid" style="margin-top:0">
           <section class="card span-12">
+            <h3>Acelerador del estudiante (sesion propia)</h3>
+            <p class="footer-note">Este pedal solo modifica tu sesion. Variables avanzadas siguen bajo control del instructor.</p>
+            <div class="field" style="margin-top:10px">
+              <label>APP <span data-student-app-value>0</span>%</label>
+              <input data-student-app-slider type="range" min="0" max="100" step="0.1" value="0">
+            </div>
+            <small data-student-app-status class="footer-note"></small>
+          </section>
+          <section class="card span-12">
             <div class="row" style="justify-content:space-between">
               <div>
                 <h3>Datos en vivo</h3>
-                <small>Visualización continua de PIDs en tiempo real.</small>
+                <small>Visualizacion continua de PIDs en tiempo real.</small>
               </div>
-              <button class="ghost" data-go-section="scanner-graphs">Ir a gráficas</button>
+              <button class="ghost" data-go-section="scanner-graphs">Ir a graficas</button>
             </div>
             <div class="table-wrap compact-table">
               <table>
@@ -128,10 +198,23 @@
       <section class="scanner-section" id="scanner-graphs">
         <div class="grid compact-grid" style="margin-top:0">
           <section class="card span-12">
+            <div class="row" style="justify-content:space-between;align-items:center">
+              <div>
+                <h3>Acelerador del estudiante (graficas en vivo)</h3>
+                <small class="footer-note">Ajusta APP y observa el cambio inmediato en las graficas.</small>
+              </div>
+              <div style="min-width:320px;flex:1;max-width:520px">
+                <label>APP <span data-student-app-value>0</span>%</label>
+                <input data-student-app-slider type="range" min="0" max="100" step="0.1" value="0">
+                <small data-student-app-status class="footer-note"></small>
+              </div>
+            </div>
+          </section>
+          <section class="card span-12">
             <div class="row" style="justify-content:space-between">
               <div>
-                <h3>Gráficas de PIDs</h3>
-                <small>Elige señales y alterna entre vista mezclada o independiente.</small>
+                <h3>Graficas de PIDs</h3>
+                <small>Elige senales y alterna entre vista mezclada o independiente.</small>
               </div>
               <div class="row">
                 <label style="margin:0">Modo</label>
@@ -139,6 +222,8 @@
                   <option value="mixed">Mezcladas</option>
                   <option value="split">Independientes</option>
                 </select>
+                <button class="ghost mini-btn" type="button" data-graph-pause-btn>Pausar grafica</button>
+                <button class="ghost mini-btn" type="button" data-graph-export-btn>Exportar imagen</button>
               </div>
             </div>
             <div id="signalButtons" class="signal-grid"></div>
@@ -180,36 +265,36 @@
 
       <section class="scanner-section" id="scanner-mode05">
         <div class="grid compact-grid" style="margin-top:0">
-          <section class="card span-12"><div class="row" style="justify-content:space-between"><div><h3>Modo 05 · Pruebas de sensores de oxígeno</h3><small>Resultados de prueba O2 en el escáner.</small></div><button id="mode05Btn" class="primary">Leer Modo 05</button></div></section>
-          <section class="card span-12"><div id="mode05Box" class="scan-placeholder">Presiona el botón para consultar las pruebas O2.</div></section>
+          <section class="card span-12"><div class="row" style="justify-content:space-between"><div><h3>Modo 05  Pruebas de sensores de oxigeno</h3><small>Resultados de prueba O2 en el escaner.</small></div><button id="mode05Btn" class="primary">Leer Modo 05</button></div></section>
+          <section class="card span-12"><div id="mode05Box" class="scan-placeholder">Presiona el boton para consultar las pruebas O2.</div></section>
         </div>
       </section>
 
       <section class="scanner-section" id="scanner-mode06">
         <div class="grid compact-grid" style="margin-top:0">
-          <section class="card span-12"><div class="row" style="justify-content:space-between"><div><h3>Modo 06 · Monitores a bordo</h3><small>Resultados de autotests internos de la ECU.</small></div><button id="mode06Btn" class="primary">Leer Modo 06</button></div></section>
-          <section class="card span-12"><div class="table-wrap compact-table"><table><thead><tr><th>TID</th><th>Monitor</th><th>Mín</th><th>Actual</th><th>Máx</th><th>Desgaste</th><th>Estado</th></tr></thead><tbody id="mode06Table"></tbody></table></div></section>
+          <section class="card span-12"><div class="row" style="justify-content:space-between"><div><h3>Modo 06  Monitores a bordo</h3><small>Resultados de autotests internos de la ECU.</small></div><button id="mode06Btn" class="primary">Leer Modo 06</button></div></section>
+          <section class="card span-12"><div class="table-wrap compact-table"><table><thead><tr><th>TID</th><th>Monitor</th><th>Min</th><th>Actual</th><th>Max</th><th>Desgaste</th><th>Estado</th></tr></thead><tbody id="mode06Table"></tbody></table></div></section>
         </div>
       </section>
 
       <section class="scanner-section" id="scanner-mode07">
         <div class="grid compact-grid" style="margin-top:0">
-          <section class="card span-12"><div class="row" style="justify-content:space-between"><div><h3>Modo 07 · DTC pendientes</h3><small>Códigos pendientes antes de confirmarse.</small></div><button id="mode07Btn" class="primary">Leer Modo 07</button></div></section>
-          <section class="card span-12"><div class="table-wrap compact-table"><table><thead><tr><th>Código</th><th>Descripción</th><th>Estado</th></tr></thead><tbody id="mode07Table"></tbody></table></div></section>
+          <section class="card span-12"><div class="row" style="justify-content:space-between"><div><h3>Modo 07  DTC pendientes</h3><small>Codigos pendientes antes de confirmarse.</small></div><button id="mode07Btn" class="primary">Leer Modo 07</button></div></section>
+          <section class="card span-12"><div class="table-wrap compact-table"><table><thead><tr><th>Codigo</th><th>Descripcion</th><th>Estado</th></tr></thead><tbody id="mode07Table"></tbody></table></div></section>
         </div>
       </section>
 
       <section class="scanner-section" id="scanner-mode08">
         <div class="grid compact-grid" style="margin-top:0">
-          <section class="card span-12"><div class="row" style="justify-content:space-between"><div><h3>Modo 08 · Control de actuadores</h3><small>Explicación educativa. Las pruebas se comandarán solo desde el Panel 1.</small></div><button id="mode08Btn" class="primary">Leer Modo 08</button></div></section>
-          <section class="card span-12"><div id="mode08Box" class="scan-placeholder">Presiona el botón para consultar la explicación educativa del Modo 08.</div></section>
+          <section class="card span-12"><div class="row" style="justify-content:space-between"><div><h3>Modo 08  Control de actuadores</h3><small>Explicacion educativa. Las pruebas se comandaran solo desde el Panel 1.</small></div><button id="mode08Btn" class="primary">Leer Modo 08</button></div></section>
+          <section class="card span-12"><div id="mode08Box" class="scan-placeholder">Presiona el boton para consultar la explicacion educativa del Modo 08.</div></section>
         </div>
       </section>
 
       <section class="scanner-section" id="scanner-mode09">
         <div class="grid compact-grid" style="margin-top:0">
-          <section class="card span-12"><div class="row" style="justify-content:space-between"><div><h3>Modo 09 · Información ECU</h3><small>Identificación del vehículo y de la simulación.</small></div><button id="mode09Btn" class="primary">Leer Modo 09</button></div></section>
-          <section class="card span-12"><div id="mode09Box" class="scan-placeholder">Presiona el botón para cargar la información ECU.</div></section>
+          <section class="card span-12"><div class="row" style="justify-content:space-between"><div><h3>Modo 09  Informacion ECU</h3><small>Identificacion del vehiculo y de la simulacion.</small></div><button id="mode09Btn" class="primary">Leer Modo 09</button></div></section>
+          <section class="card span-12"><div id="mode09Box" class="scan-placeholder">Presiona el boton para cargar la informacion ECU.</div></section>
         </div>
       </section>
 
@@ -221,11 +306,82 @@
               <input id="dtcSearchInput" placeholder="Ejemplo: P0101 o rail pressure" style="min-width:280px">
               <button id="searchDtcBtn" class="primary">Buscar</button>
             </div>
+            <hr style="border-color:#21405c; margin:12px 0">
+            <h3>Constructor DTC por caracteres</h3>
+            <small class="footer-note">Usa scroll o clic para ajustar cada caracter del codigo.</small>
+            <div class="row" style="gap:8px;flex-wrap:wrap;margin-top:10px">
+              <select id="dtcChar0" style="font-size:26px;min-width:70px;height:56px;text-align:center"><option>P</option><option>B</option><option>C</option><option>U</option></select>
+              <select id="dtcChar1" style="font-size:26px;min-width:70px;height:56px;text-align:center"><option>0</option><option>1</option><option>2</option><option>3</option></select>
+              <select id="dtcChar2" style="font-size:26px;min-width:70px;height:56px;text-align:center"><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option></select>
+              <select id="dtcChar3" style="font-size:26px;min-width:70px;height:56px;text-align:center"><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option></select>
+              <select id="dtcChar4" style="font-size:26px;min-width:70px;height:56px;text-align:center"><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option></select>
+              <button id="dtcBuildLookupBtn" class="ok">Consultar codigo</button>
+            </div>
+            <div class="row" style="margin-top:8px"><strong id="dtcComposedValue">P0000</strong></div>
+            <div id="dtcDetailBox" class="freeze-card" style="margin-top:10px;display:none"></div>
             <div class="table-wrap compact-table" style="margin-top:10px">
               <table>
-                <thead><tr><th>Código</th><th>Descripción</th></tr></thead>
+                <thead><tr><th>Codigo</th><th>Descripcion</th></tr></thead>
                 <tbody id="dtcLookupTable"></tbody>
               </table>
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <section class="scanner-section" id="scanner-evaluation">
+        <div class="grid compact-grid" style="margin-top:0">
+          <section class="card span-12">
+            <div>
+              <h3>Evaluacion del instructor</h3>
+              <small>Marca las respuestas y envia. Puntaje normalizado sobre 20 puntos.</small>
+            </div>
+          </section>
+          <section class="card span-12">
+            <div id="studentEvaluationBox" class="scan-placeholder">Aun no hay evaluacion activa.</div>
+            <div class="row" style="justify-content:flex-end;margin-top:10px">
+              <button id="submitEvaluationBtn" class="primary">Enviar evaluacion</button>
+            </div>
+            <div class="row" style="justify-content:flex-end;margin-top:8px">
+              <button id="evaluationBackHomeBtn" class="ghost" style="display:none">Volver al inicio</button>
+            </div>
+            <div id="studentEvaluationResult" class="footer-note" style="margin-top:8px"></div>
+            <hr style="border-color:#21405c; margin:12px 0">
+            <h3>Asistente DTC en evaluacion</h3>
+            <small class="footer-note">salo para analizar codigos durante la prueba evaluativa.</small>
+            <div class="row" style="gap:8px;flex-wrap:wrap;margin-top:10px">
+              <select id="evalStuDtcChar0" style="font-size:24px;min-width:68px;height:52px;text-align:center"><option>P</option><option>B</option><option>C</option><option>U</option></select>
+              <select id="evalStuDtcChar1" style="font-size:24px;min-width:68px;height:52px;text-align:center"><option>0</option><option>1</option><option>2</option><option>3</option></select>
+              <select id="evalStuDtcChar2" style="font-size:24px;min-width:68px;height:52px;text-align:center"><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option></select>
+              <select id="evalStuDtcChar3" style="font-size:24px;min-width:68px;height:52px;text-align:center"><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option></select>
+              <select id="evalStuDtcChar4" style="font-size:24px;min-width:68px;height:52px;text-align:center"><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option></select>
+              <button id="evalStuDtcBuildLookupBtn" class="ok">Consultar</button>
+            </div>
+            <div class="row" style="margin-top:6px"><strong id="evalStuDtcComposedValue">P0000</strong></div>
+            <div id="evalStuDtcDetailBox" class="freeze-card" style="margin-top:8px;display:none"></div>
+          </section>
+          <section class="card span-12 guide-card">
+            <div class="guide-title">
+              <h3>Guia en Evaluacion (Paso a Paso)</h3>
+              <span class="guide-chip">Apoyo tecnico</span>
+            </div>
+            <div class="guide-grid">
+              <div class="guide-block">
+                <h4>Paso 1: contexto</h4>
+                <ul class="guide-list">
+                  <li>Define etapa: KOEO, idle o carga.</li>
+                  <li>Sin contexto, el valor puede enganar.</li>
+                  <li>Compara tendencia, no un numero aislado.</li>
+                </ul>
+              </div>
+              <div class="guide-block">
+                <h4>Paso 2: decision tecnica</h4>
+                <ul class="guide-list">
+                  <li>Une grafica + PIDs + DTC/freeze frame.</li>
+                  <li>Busca coherencia entre MAF, MAP, O2 y trims.</li>
+                  <li>Selecciona la opcion con mejor sustento tecnico.</li>
+                </ul>
+              </div>
             </div>
           </section>
         </div>
@@ -234,6 +390,15 @@
   </div>
 </div>
 
-<script src="/static/app.js"></script>
+<script src="/static/app.js?v=20260327a"></script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
